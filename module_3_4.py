@@ -7,7 +7,7 @@ def single_root_words(root_word, *other_words):
 
     return same_words
 
-root = "able"
-words = ["Disablement", "Able", "able", "AbLe", "capability"]
+root_word = "able"
+other_words = ["Disablement", "Able", "able", "AbLe", "capability"]
 result = single_root_words(root, words)
 print(result)
