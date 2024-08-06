@@ -9,5 +9,5 @@ def single_root_words(root_word, *other_words):
 
 root_word = "able"
 other_words = ["Disablement", "Able", "able", "AbLe", "capability"]
-result = single_root_words(root, words)
+result = single_root_words(root_word, *other_words)
 print(result)
