@@ -73,3 +73,13 @@ class Cube(Figure):
     def get_volume(self):
         side = self.__sides[0]
         return side ** 3
+
+
+circle = Circle((200, 200, 100), 50)  # Должен автоматически установить радиус
+print("Площадь круга:", circle.get_square())
+
+triangle = Triangle((120, 200, 100), 3, 4, 5)
+print("Площадь треугольника:", triangle.get_square())
+
+cube = Cube((50, 150, 75), 3)
+print("Объем куба:", cube.get_volume())
