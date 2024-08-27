@@ -1,15 +1,14 @@
+import math
+
 class Figure:
-    def __init__(self, color=(255, 255, 255), *sides):
-        self.__sides = []
-        self.__color = []
-        self.filled = False
+    def __init__(self, color, *sides):
+        self.__color = list(color)
         self.sides_count = 0
-        
-        self.set_color(*color)
+        self.filled = True
         self.set_sides(*sides)
 
     def __is_valid_color(self, r, g, b):
-        return all(isinstance(value, int) and 0 <= value <= 255 for value in (r, g, b))
+        return all(isinstance(i, int) and 0 <= i <= 255 for i in (r, g, b))
 
     def set_color(self, r, g, b):
         if self.__is_valid_color(r, g, b):
@@ -19,7 +18,7 @@ class Figure:
         return self.__color
 
     def __is_valid_sides(self, *new_sides):
-        return len(new_sides) == self.sides_count and all(isinstance(side, int) and side > 0 for side in new_sides)
+        return all(isinstance(side, int) and side > 0 for side in new_sides) and len(new_sides) == self.sides_count
 
     def set_sides(self, *new_sides):
         if self.__is_valid_sides(*new_sides):
@@ -28,44 +27,69 @@ class Figure:
     def get_sides(self):
         return self.__sides
 
-    def len(self):
-        return sum(self.__sides)  # Периметр
+    def __len__(self):
+        return sum(self.__sides)
 
+    
 class Circle(Figure):
-    sides_count = 1
-
-    def __init__(self, color=(255, 255, 255), *sides):
+    def __init__(self, color, *sides):
+        self.sides_count = 1
         super().__init__(color, *sides)
-        if self.get_sides() == []:
-            self.set_sides(1)  # Установить минимально допустимое значение
+        self.__radius = self.get_sides()[0] / (2 * math.pi)  # Длина окружности
 
     def get_square(self):
-        radius = self.get_sides()[0] / (2 * 3.14)  # длина окружности = 2 * π * r
-        return 3.14 * radius ** 2
+        return math.pi * (self.__radius ** 2)
 
+    def set_sides(self, *new_sides):
+        if len(new_sides) != 1:
+            new_sides = [1]
+        super().set_sides(*new_sides)
+        self.__radius = self.get_sides()[0] / (2 * math.pi)
+
+    
 class Triangle(Figure):
-    sides_count = 3
-
-    def __init__(self, color=(255, 255, 255), *sides):
+    def __init__(self, color, *sides):
+        self.sides_count = 3
         super().__init__(color, *sides)
-        if self.get_sides() == []:
-            self.set_sides(1, 1, 1)
 
     def get_square(self):
-        s = self.len() / 2  # полупериметр
         a, b, c = self.get_sides()
-        return (s * (s - a) * (s - b) * (s - c)) ** 0.5  # Формула Герона
+        s = (a + b + c) / 2  # Полупериметр
+        return math.sqrt(s * (s - a) * (s - b) * (s - c))
+
 
 class Cube(Figure):
-    sides_count = 12
-
-    def __init__(self, color=(255, 255, 255), side_length=1, *sides):
+    def __init__(self, color, *sides):
+        self.sides_count = 12
         super().__init__(color, *sides)
-        if self.get_sides() == []:
-            self.set_sides(*([side_length] * 12))
-        elif len(sides) == 1 and len(sides[0]) == 0:  # случай, когда не были переданы стороны
-            self.set_sides(*([side_length] * 12))
+    
+    def set_sides(self, *new_sides):
+        if len(new_sides) != 1:
+            new_sides = [1]
+        super().set_sides(*[new_sides[0]] * self.sides_count)
 
     def get_volume(self):
         return self.get_sides()[0] ** 3
- 
+
+
+# Примеры использования классов
+circle1 = Circle((200, 200, 100), 10) # (Цвет, стороны)
+cube1 = Cube((222, 35, 130), 6)
+
+# Проверка на изменение цветов:
+circle1.set_color(55, 66, 77) # Изменится
+print(circle1.get_color())
+cube1.set_color(300, 70, 15) # Не изменится
+print(cube1.get_color())
+
+# Проверка на изменение сторон:
+cube1.set_sides(5, 3, 12, 4, 5) # Не изменится
+print(cube1.get_sides())
+circle1.set_sides(15) # Изменится
+print(circle1.get_sides())
+
+# Проверка периметра (круга), это и есть длина:
+print(len(circle1))
+
+# Проверка объёма (куба):
+print(cube1.get_volume())
