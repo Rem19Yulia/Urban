@@ -1,0 +1,39 @@
+import threading
+import time
+
+class Knight(threading.Thread):
+    def __init__(self, name, power):
+        super().__init__()
+        self.name = name
+        self.power = power
+        self.enemies = 100  # Количество врагов
+        self.days = 0
+
+    def run(self):
+        print(f"{self.name}, на нас напали!")
+        
+        while self.enemies > 0:
+            time.sleep(1)  # Задержка на 1 секунду
+            self.enemies -= self.power
+            self.days += 1
+            
+            if self.enemies < 0:
+                self.enemies = 0
+            
+            print(f"{self.name} сражается {self.days}... осталось {self.enemies} воинов.")
+        
+        print(f"{self.name} одержал победу спустя {self.days} дней(я)!")
+        
+# Создаем 2 потока рыцарей
+knight1 = Knight("Рыцарь 1", 15)
+knight2 = Knight("Рыцарь 2", 20)
+
+# Запускаем потоки
+knight1.start()
+knight2.start()
+
+# Ждем завершения обоих потоков
+knight1.join()
+knight2.join()
+
+print("Битвы окончены.")
