@@ -1,0 +1,36 @@
+import inspect
+
+def introspection_info(obj):
+    info = {
+        'type': type(obj).__name__,
+        'attributes': [attr for attr in dir(obj) if not attr.startswith('__')],
+        'methods': [method for method in dir(obj) if callable(getattr(obj, method)) and not method.startswith('__')],
+        'module': obj.__module__,
+        'doc': inspect.getdoc(obj),
+    }
+    
+    return info
+
+# Пример использования
+if __name__ == "__main__":
+    class SampleClass:
+        """Это пример класса."""
+        def method_one(self):
+            pass
+        
+        def method_two(self):
+            pass
+
+    sample = SampleClass()
+    result = introspection_info(sample)
+    for key, value in result.items():
+        print(f"{key}: {value}")
+
+
+
+
+type: SampleClass
+attributes: ['method_one', 'method_two']
+methods: ['method_one', 'method_two']
+module: __main__
+doc: Это пример класса.
