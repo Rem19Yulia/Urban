@@ -37,8 +37,8 @@ class Circle(Figure):
     def __init__(self, color, *sides):
         self.sides_count = 1
         super().__init__(color, *sides)
-        if self.__sides:
-            self.__radius = self.__sides[0] / (2 * math.pi)
+        if self.get_sides():
+            self.__radius = self.get_sides()[0]
 
     def get_square(self):
         return math.pi * self.__radius ** 2
@@ -46,7 +46,7 @@ class Circle(Figure):
     def set_sides(self, *new_sides):
         if len(new_sides) == 1:
             super().set_sides(*new_sides)
-            self.__radius = new_sides[0] / (2 * math.pi)
+            self.__radius = new_sides[0]
         else:
             super().set_sides(1)  # Установим дефолтное значение
 
@@ -56,7 +56,7 @@ class Triangle(Figure):
         super().__init__(color, *sides)
 
     def get_square(self):
-        a, b, c = self.__sides
+        a, b, c = self.get_sides()
         s = (a + b + c) / 2
         return math.sqrt(s * (s - a) * (s - b) * (s - c))
 
@@ -64,8 +64,8 @@ class Cube(Figure):
     def __init__(self, color, *sides):
         self.sides_count = 12
         super().__init__(color, *sides)
-        if self.__sides:
-            self.__side_length = self.__sides[0]
+        if self.get_sides():
+            self.__side_length = self.get_sides()[0]
 
     def set_sides(self, *new_sides):
         if len(new_sides) == 1:
@@ -87,58 +87,23 @@ print(circle1.get_color())  # [55, 66, 77]
 cube1.set_color(300, 70, 15)
 print(cube1.get_color())  # [222, 35, 130]
 
-class Cube:
-    def __init__(self, side):
-        self._side = side
-    
-    def set_sides(self, *sides):
-        # Куб имеет только один размер, поэтому проверяем только на один аргумент
-        if len(sides) == 1:
-            self._side = sides[0]
-    
-    def get_sides(self):
-        return (self._side,)
-    
-    def get_volume(self):
-        return self._side ** 3
-    
-    def __len__(self):
-        return self.get_volume()
-
-class Circle:
-    def __init__(self, radius):
-        self._radius = radius
-    
-    def set_sides(self, *sides):
-        # Для круга это просто радиус
-        if len(sides) == 1:
-            self._radius = sides[0]
-    
-    def get_sides(self):
-        return (self._radius,)
-    
-    def __len__(self):
-        # Длина окружности: 2 * π * радиус
-        import math
-        return 2 * math.pi * self._radius
-
 # Создаём объекты классов
-cube1 = Cube(5)
-circle1 = Circle(15)
+cube1 = Cube((0, 0, 0), 5)
+circle1 = Circle((255, 255, 0), 15)
 
 # Проверка изменения сторон и получения сторон
-cube1.set_sides(5, 3, 12, 4, 5) # Не изменится
+cube1.set_sides(5, 3, 12, 4, 5)  # Не изменится
 print(cube1.get_sides())  # Ожидаем (5,)
 
-circle1.set_sides(15) # Изменится
+circle1.set_sides(15)  # Изменится
 print(circle1.get_sides())  # Ожидаем (15,)
 
 # Проверка периметра (круга)
-print(len(circle1))  # Ожидаем 2 * π * 15
+print(circle1.len())  # Ожидаем 2 * π * 15
 
 # Проверка объёма (куба)
 print(cube1.get_volume())  # Ожидаем 5 ** 3
 
-   print(isinstance(cube1, Cube))  # Ожидаем True
-   print(isinstance(circle1, Circle))  # Ожидаем True
+print(isinstance(cube1, Cube))  # Ожидаем True
+print(isinstance(circle1, Circle))  # Ожидаем True
    
