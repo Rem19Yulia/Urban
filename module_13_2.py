@@ -3,25 +3,25 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils import executor
 
-API_TOKEN = 'Токен из Botfather' 
+api = "токен из BotFather"
 
-# Настройка логирования
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level = logging.INFO)
 
-# Инициализация бота и диспетчера
-bot = Bot(token=API_TOKEN)
+bot = Bot(token = api)
 storage = MemoryStorage()
-dp = Dispatcher(bot, storage=storage)
+dp = Dispatcher(bot, storage= storage)
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    print('Привет! Я бот, помогающий твоему здоровью.')
-    await message.reply('Привет! Я здесь, чтобы помочь тебе. Напиши что-то или используй команду /start.')
+    print("Привет! Я бот, помогающий твоему здоровью.")
+    await message.reply('Привет! Я бот, помогающий твоему здоровью.')
 
-@dp.message_handler()
-async def all_messages(message: types.Message):
-    print('Введите команду /start, чтобы начать общение.')
-    await message.reply('Эта команда не распознана. Попробуйте /start.')
+@dp.message_handler(lambda message:True)
+async def all_message(message: types.Message):
+    print("Введите команду /start , чтобы начать общение.")
+    await message.reply("Введите команду /start , чтобы начать общение.")
 
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+
+
+if __name__ == "__main__":
+    executor.start_polling(dp, skip_updates= True)
