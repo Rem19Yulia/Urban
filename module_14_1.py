@@ -25,10 +25,10 @@ conn.commit()
 ids_to_delete = []
 cursor.execute("SELECT id FROM Users")
 rows = cursor.fetchall()
-
+# Исправленный цикл: используем range(1, len(rows)+1), чтобы индексы начинались с 1
 for i in range(1, len(rows) + 1):
     if i % 3 == 0:
-        ids_to_delete.append(rows[i-1][0]) 
+        ids_to_delete.append(rows[i-1][0]) # корректируем индекс для доступа к rows
 
 for id_to_delete in ids_to_delete:
     cursor.execute("DELETE FROM Users WHERE id = ?", (id_to_delete,))
