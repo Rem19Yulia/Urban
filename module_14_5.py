@@ -11,7 +11,7 @@ import sqlite3
 from crud_functions import initiate_db
 import asyncio
 
-BOT_TOKEN = "7848104360:AAE-nP78QnJFqYsCJe6hd554aIsDERluw8Y"
+BOT_TOKEN = "Ключ Botfather"
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -44,7 +44,7 @@ class UserState(StatesGroup):
     growth = State()
     weight = State()
 
-@dp.message_handler(commands=['start'], state='*')
+@dp.message_handler(commands=['start'])
 async def cmd_start(message: types.Message, state: FSMContext):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button_calculate = types.KeyboardButton("Рассчитать")
@@ -66,7 +66,7 @@ async def get_buying_list(message: types.Message):
 
     await message.reply(reply_text)
 
-@dp.message_handler(text='Информация', state='*')
+@dp.message_handler(text='Информация')
 async def send_info(message: types.Message):
     await message.reply("Этот бот поможет вам рассчитать вашу суточную норму калорий. Вам потребуется ввести ваш возраст, рост и вес.")
 
@@ -145,7 +145,7 @@ async def process_weight(message: types.Message, state: FSMContext):
 
 
 # Inline клавиатура задание 14.3 к нопке "Купить"
-@dp.message_handler(text='Купить', state='*')  # Обработчик для кнопки "Купить"
+@dp.message_handler(text='Купить')  # Обработчик для кнопки "Купить"
 async def get_buying_list(message: types.Message):
     products = [
         {"name": "Product 1", "description": "Описание 1", "price": 100, "photo": "mg.jpg"},
