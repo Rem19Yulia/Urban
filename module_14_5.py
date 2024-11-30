@@ -1,6 +1,3 @@
-from email.message import Message
-from sqlite3 import Connection
-
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
